@@ -1,4 +1,4 @@
-# WebDev Base Container Setup - NodeJS x PostgreSQL
+## WebDev Container Setup 
 A simple container setup for web development with NodeJS and PostgreSQL. This setup is intended to be used as a base for web development projects.
 
 Tech Inside:
