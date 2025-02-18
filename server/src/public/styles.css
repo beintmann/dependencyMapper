@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    display: flex; /* Verwende Flexbox für das Layout */
+    justify-content: center; /* Zentriere den Inhalt horizontal */
+    align-items: center; /* Zentriere den Inhalt vertikal */
+    height: 100vh; /* Setze die Höhe auf 100% der Ansichtshöhe */
+    margin: 0; /* Entferne Standard-Margen */
+}
+
+form {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Setze die Breite auf 100% */
+    max-width: 400px; /* Maximalbreite für größere Bildschirme */
+
+}
+
+#search {
+    width: calc(100% - 22px); /* Breite des Suchfeldes */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Abstand nach unten */
+}
+
+
+
+button {
+    background-color: rgb(237, 21, 21); /* Farbe des Button */
+    color: white; /* Textfarbe */
+    border: none; /* Keine Rahmenlinie */
+    border-radius: 25px; /* Runde Ecken */
+    padding: 10px 15px; /* Innenabstand */
+    font-size: 14px; /* Schriftgröße */
+    cursor: pointer; /* Zeiger-Cursor beim Hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Übergangseffekte */
+}
+
+#submit-btn {
+
+    margin-left: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#slct-feld {
+    margin-left: 10px;
+
+}
+
+#suggestions li {
+    padding: 10px;
+    cursor: pointer; /* Zeigt an, dass es klickbar ist */
+    display: block; /* Nur so viel Platz wie der Inhalt */
+}
+
+
+.suggestions-list {
+    position: absolute;
+    top: 100%; /* Position unter dem Suchfeld */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px; /* Maximale Höhe der Liste */
+    overflow-y: auto; /* Scrollen, wenn die Liste zu lang ist */
+    z-index: 1000; /* Über anderen Elementen anzeigen */
+    list-style: none; /* Keine Aufzählungszeichen */
+    padding: 0;
+    margin: 0;
+}
+
+
+

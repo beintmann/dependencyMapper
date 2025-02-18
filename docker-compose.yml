@@ -33,9 +33,23 @@ services:
       timeout: 5s
       retries: 5
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user-name@domain-name.com
+      PGADMIN_DEFAULT_PASSWORD: strong-password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
 
 volumes:
   server-node-modules:
     name: "server-node-modules"
   database-postgres:
     name: "database-postgres-data"
+  pgadmin-data:
+    name: "pgadmin-data"
