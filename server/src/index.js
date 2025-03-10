@@ -26,30 +26,35 @@ app.get('/', (req, res) => {
     res.send(`
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="searchHandler.js" defer ></script>
-        <form action="/search" method="POST" class="search-container">
+        <form id="search-form" action="/search" method="POST" class="search-container">
+        
             <input type="text" id="search" autocomplete="off" placeholder="Suchbegriff" required>
+            
             <select id="slct-feld" name="type">
                 <option value="Datensatz">Datensatz</option>
                 <option value="Anwendung">Anwendung</option>
                 <option value="Dienst">Dienst</option>
             </select>
+            
             <button id="submit-btn" type="submit">Suchen</button>
             <ul id="suggestions" class="suggestions-list"></ul>
         </form>
+        
+        <div id="results-container" class="results-container" style="display: none;"></div>
     `);
 });
 
-app.get("/demo-table", async (req, res) => {
-    try{
-        const result = await pool.query("SELECT * FROM demo_table");
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-    }
-
-
-
-});
+// app.get("/demo-table", async (req, res) => {
+//     try{
+//         const result = await pool.query("SELECT * FROM demo_table");
+//         res.json(result.rows);
+//     } catch (err) {
+//         console.error(err);
+//     }
+//
+//
+//
+// });
 
 app.get('/tables', async (req, res) => {
     try {
@@ -66,7 +71,9 @@ app.get('/tables', async (req, res) => {
     }
 });
 
-app.get("/search", async (req, res) => {
+
+//route für Vorschlagliste
+app.get("/recommended", async (req, res) => {
 
     //holt sich die Variablen aus der URL
     const suchbegriff = req.query.q;
@@ -94,4 +101,22 @@ app.get("/search", async (req, res) => {
     }catch(err){
         console.error(err);
     }
+})
+
+//route für Suche
+app.get("/search", async (req, res) => {
+
+    //holt sich die Variablen aus der URL
+    const suchbegriff = req.query.q;
+    const selectedValue = req.query.v;
+
+    //schutz vor SQL-Injection
+    const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
+
+    if (!allowedTables.includes(selectedValue)) {
+        return res.status(400).json({ error: 'Invalid table name' });
+    }
+
+
+
 })

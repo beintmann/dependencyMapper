@@ -1,3 +1,6 @@
+
+/* für suchleiste*/
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -51,6 +54,10 @@ button {
 #slct-feld {
     margin-left: 10px;
 
+
+
+
+/* für vorschlagliste */
 }
 
 #suggestions li {
@@ -78,3 +85,15 @@ button {
 
 
 
+.results-container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Füllt die Breite */
+    max-width: 100%; /* Maximalbreite auf 100% setzen */
+    margin-top: 20px; /* Abstand zum Suchformular */
+    display: flex; /* Flexbox für die Anordnung */
+    flex-direction: column; /* Spaltenanordnung */
+    gap: 20px; /* Abstand zwischen den Elementen */
+}
