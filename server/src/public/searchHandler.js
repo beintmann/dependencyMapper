@@ -46,10 +46,20 @@ document.getElementById("search-form").addEventListener("submit", async function
     const searchForm = document.getElementById("search-form");
     searchForm.style.transform = "translateY(-40vh)";
 
-    //Anfrage mit parametern an die /search Route
-    const response = await fetch (`/search?q=${query}&v=${selectedType}`);
+    //Anfrage mit parametern an die /search Route als POST
+    const response = await fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query, type: selectedType })
+    });
 
+    // zum testen ausgabe der ergebnisse in der konsole
+    const results = await response.json();
+    console.log(results);
 
+    const resultsContainer =
 
 
 })

@@ -5,6 +5,7 @@ const port = 3000
 
 //erlaubt die Nutzung des src/public Ordners, damit die style.css geladen werden kann
 app.use(express.static('src/public'));
+app.use(express.json());
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
@@ -101,22 +102,70 @@ app.get("/recommended", async (req, res) => {
     }catch(err){
         console.error(err);
     }
-})
+});
 
 //route für Suche
-app.get("/search", async (req, res) => {
+app.post("/search", async (req, res) => {
 
-    //holt sich die Variablen aus der URL
-    const suchbegriff = req.query.q;
-    const selectedValue = req.query.v;
+
+    //holt sich die Variablen aus dem Body
+    const { query, type } = req.body;
+    console.log("selectedValue Wert:  " + type);
 
     //schutz vor SQL-Injection
     const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
 
-    if (!allowedTables.includes(selectedValue)) {
-        return res.status(400).json({ error: 'Invalid table name' });
+    try {
+        if (!allowedTables.includes(type)) {
+            return res.status(400).json({error: 'Invalid table name'});
+        }
+
+        //Suche wenn nach einem Datensatz gesucht wird
+        if (type == 'Datensatz') {
+
+            const resultDienste = await pool.query(
+                `SELECT di."Bezeichnung" AS dienst_name -- Name des Dienstes
+                 FROM "Datensatz" d
+                          LEFT JOIN
+                      "Datensatz_Dienst" dd ON d."DatensatzID" = dd."DatensatzID"
+                          LEFT JOIN
+                      "Dienst" di ON dd."DienstID" = di."MetadatenUUID"
+
+                 WHERE d."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+            );
+
+            const resultAnwendungen = await pool.query(
+                `SELECT
+
+                DISTINCT a."Bezeichnung" AS anwendung_name  -- Name der Anwendung
+    
+                FROM
+                "Datensatz" d
+                LEFT JOIN
+                "Datensatz_Dienst" dd ON d."DatensatzID" = dd."DatensatzID"
+                LEFT JOIN
+                "Dienst" di ON dd."DienstID" = di."MetadatenUUID"
+                LEFT JOIN
+                "Dienst_Anwendung" da ON di."MetadatenUUID" = da."DienstID"
+                LEFT JOIN
+                "Anwendung" a ON da."AnwendungID" = a."MetadatenUUID"
+                LEFT JOIN
+                "Server_Anwendung" sa ON a."MetadatenUUID" = sa."AnwendungID"
+                LEFT JOIN
+                "Server" s ON sa."ServerID" = s."ServerID"
+                WHERE
+                d."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+
+            );
+
+            res.json({
+                Dienste: resultDienste.rows,
+                Anwendungen: resultAnwendungen.rows
+            });
+
+
+        }
+    } catch(err){
+    console.error(err);
     }
-
-
-
-})
+});
