@@ -41,7 +41,14 @@ app.get('/', (req, res) => {
             <ul id="suggestions" class="suggestions-list"></ul>
         </form>
         
-        <div id="results-container" class="results-container" style="display: none;"></div>
+        <div id="metadata" class="metadata" style="display: none;"></div>
+        
+        <div id="results-container" class="results-container" style="display: none; width:90%">
+            
+            <div id="anwendungen-container" class="sub-container"></div>
+            <div id="dienste-container" class="sub-container"></div>
+        
+        </div>
     `);
 });
 

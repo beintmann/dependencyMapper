@@ -44,7 +44,14 @@ document.getElementById("search-form").addEventListener("submit", async function
 
     // Bewegt das Suchformular nach oben
     const searchForm = document.getElementById("search-form");
-    searchForm.style.transform = "translateY(-40vh)";
+    searchForm.style.position = "fixed"
+    searchForm.style.top = "0";
+
+
+    // Zeige die Metadaten-Div an
+    const metadataDiv = document.getElementById("metadata");
+    metadataDiv.style.display = "block";
+    metadataDiv.textContent = "Hier Könnten Ihre Metadaten Stehen"
 
     //Anfrage mit parametern an die /search Route als POST
     const response = await fetch('/search', {
@@ -59,7 +66,23 @@ document.getElementById("search-form").addEventListener("submit", async function
     const results = await response.json();
     console.log(results);
 
-    const resultsContainer =
+    //Logik für Befüllung der Container mit den Daten aus der Response
+
+    const resultContainer = document.getElementById("results-container");
+    resultContainer.style.display = "flex"
+
+    const anwendungenContainer = document.getElementById("anwendungen-container");
+    anwendungenContainer.className = "sub-container"
+
+    const diensteContainer = document.getElementById("dienste-container");
+    diensteContainer.className = "sub-container"
+
+    results.Dienste.forEach(dienst => {
+        const dienstElement = document.createElement("dienst-element")
+        dienstElement.className = "sub-element"
+        dienstElement.textContent = dienst.dienst_name
+        diensteContainer.appendChild(dienstElement);
+    })
 
 
 })
