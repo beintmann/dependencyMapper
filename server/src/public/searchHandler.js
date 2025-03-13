@@ -82,6 +82,7 @@ document.getElementById("search-form").addEventListener("submit", async function
     dienstContainer.className = "sub-container"
 
     if (results.Dienste) {
+        dienstContainer.style.display = "flex"
         //füllt rechte liste mit diensten
         results.Dienste.forEach(dienst => {
             const dienstElement = document.createElement("dienst-element")
@@ -92,6 +93,7 @@ document.getElementById("search-form").addEventListener("submit", async function
     }
 
     if (results.Anwendungen) {
+        anwendungContainer.style.display = "flex"
 
         // füllt linke liste mit Anwendungen
         results.Anwendungen.forEach(anwendung => {
@@ -112,5 +114,6 @@ function clearSubContainers() {
     // Iteriere über die ausgewählten Elemente und setze den textContent auf einen leeren String
     subContainers.forEach(container => {
         container.textContent = ''; // Leere den Inhalt
+        container.style.display = "none" //macht ihn wieder unsichtbar falls in der nächsten suche ein anderer typ gesucht wird
     });
 }

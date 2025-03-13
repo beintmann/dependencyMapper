@@ -45,8 +45,8 @@ app.get('/', (req, res) => {
         
         <div id="results-container" class="results-container" style="display: none; width:90%">
             
-            <div id="anwendungen-container" class="sub-container"></div>
-            <div id="dienste-container" class="sub-container"></div>
+            <div id="anwendungen-container" class="sub-container" style="display: none;"></div>
+            <div id="dienste-container" class="sub-container" style="display: none;"></div>
         
         </div>
     `);
