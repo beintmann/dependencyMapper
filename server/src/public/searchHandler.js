@@ -39,6 +39,8 @@ document.getElementById("search").addEventListener("input", async function(){
 document.getElementById("search-form").addEventListener("submit", async function(event){
     event.preventDefault(); //verhindert das standart submit-verhalten des formulars
 
+    clearSubContainers();
+
     const query = document.getElementById("search").value;
     const selectedType = document.getElementById("slct-feld").value;
 
@@ -66,23 +68,49 @@ document.getElementById("search-form").addEventListener("submit", async function
     const results = await response.json();
     console.log(results);
 
+
+
     //Logik für Befüllung der Container mit den Daten aus der Response
 
     const resultContainer = document.getElementById("results-container");
     resultContainer.style.display = "flex"
 
-    const anwendungenContainer = document.getElementById("anwendungen-container");
-    anwendungenContainer.className = "sub-container"
+    const anwendungContainer = document.getElementById("anwendungen-container");
+    anwendungContainer.className = "sub-container"
 
-    const diensteContainer = document.getElementById("dienste-container");
-    diensteContainer.className = "sub-container"
+    const dienstContainer = document.getElementById("dienste-container");
+    dienstContainer.className = "sub-container"
 
-    results.Dienste.forEach(dienst => {
-        const dienstElement = document.createElement("dienst-element")
-        dienstElement.className = "sub-element"
-        dienstElement.textContent = dienst.dienst_name
-        diensteContainer.appendChild(dienstElement);
-    })
+    if (results.Dienste) {
+        //füllt rechte liste mit diensten
+        results.Dienste.forEach(dienst => {
+            const dienstElement = document.createElement("dienst-element")
+            dienstElement.className = "sub-element"
+            dienstElement.textContent = dienst.dienst_name
+            dienstContainer.appendChild(dienstElement);
+        });
+    }
 
+    if (results.Anwendungen) {
 
+        // füllt linke liste mit Anwendungen
+        results.Anwendungen.forEach(anwendung => {
+            const anwendungElement = document.createElement("anwendung-element")
+            anwendungElement.className = "sub-element"
+            anwendungElement.textContent = anwendung.anwendung_name
+            anwendungContainer.appendChild(anwendungElement);
+        })
+
+    }
 })
+
+
+function clearSubContainers() {
+    // Wähle alle divs mit der Klasse 'sub-container'
+    const subContainers = document.querySelectorAll('.sub-container');
+
+    // Iteriere über die ausgewählten Elemente und setze den textContent auf einen leeren String
+    subContainers.forEach(container => {
+        container.textContent = ''; // Leere den Inhalt
+    });
+}
