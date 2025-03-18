@@ -13,3 +13,21 @@ document.getElementById('slct-feld').addEventListener('change', function() {
         form.action = '/search/dienst';
     }
 });
+
+//funktion um die Margin der Metadatendiv an die höhe der Such-div anzupassen
+function adjustContentMargin() {
+    const fixedDiv = document.getElementById('search-form');
+    const metadataDiv = document.getElementById('metadata');
+
+    // Ermitteln der Höhe der fixierten Div
+    const fixedDivHeight = fixedDiv.offsetHeight;
+
+    // Setzen der Margin-Top der metadatenDiv
+    metadataDiv.style.marginTop = fixedDivHeight + 'px';
+}
+
+// Aufruf der Funktion beim Laden der Seite
+window.onload = adjustContentMargin;
+
+//Aufruf der Funktion, wenn die Fenstergröße geändert wird
+window.onresize = adjustContentMargin;
