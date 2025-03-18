@@ -50,13 +50,13 @@ document.getElementById("search-form").addEventListener("submit", async function
     searchForm.style.top = "0";
 
 
-    // Zeige die Metadaten-Div an
+    // Zeige die metadata-div an
     const metadataDiv = document.getElementById("metadata");
     metadataDiv.style.display = "block";
     metadataDiv.textContent = "Hier Könnten Ihre Metadaten Stehen"
 
     //Anfrage mit parametern an die /search Route als POST
-    const response = await fetch('/search', {
+    const response = await fetch(`/search/${selectedType}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -81,9 +81,26 @@ document.getElementById("search-form").addEventListener("submit", async function
     const dienstContainer = document.getElementById("dienste-container");
     dienstContainer.className = "sub-container"
 
+    const serverContainer = document.getElementById("server-container");
+    serverContainer.className = "sub-container"
+
+    if(results.metadata) {
+        results.metadata.forEach(properties =>{
+
+            for (const value in properties) {
+
+                const newParagraph = document.createElement('p');
+                newParagraph.textContent = `${value}: ${properties[value]}`;
+                metadataDiv.appendChild(newParagraph);
+
+            }
+        });
+    }
+
+
     if (results.Dienste) {
         dienstContainer.style.display = "flex"
-        //füllt rechte liste mit diensten
+        //füllt rechte liste mit Diensten
         results.Dienste.forEach(dienst => {
             const dienstElement = document.createElement("dienst-element")
             dienstElement.className = "sub-element"
@@ -104,14 +121,27 @@ document.getElementById("search-form").addEventListener("submit", async function
         })
 
     }
+    if (results.Server) {
+        serverContainer.style.display = "flex"
+
+        // füllt div mit Servern
+        results.Server.forEach(server => {
+            const serverElement = document.createElement("server-element")
+            serverElement.className = "sub-element"
+            serverElement.textContent = server.server_name
+            serverContainer.appendChild(serverElement);
+        })
+
+    }
+
 })
 
 
 function clearSubContainers() {
-    // Wähle alle divs mit der Klasse 'sub-container'
+    // Wählt alle divs mit der Klasse 'sub-container'
     const subContainers = document.querySelectorAll('.sub-container');
 
-    // Iteriere über die ausgewählten Elemente und setze den textContent auf einen leeren String
+    // Iteriert über die ausgewählten Elemente und setzt den textContent auf einen leeren String
     subContainers.forEach(container => {
         container.textContent = ''; // Leere den Inhalt
         container.style.display = "none" //macht ihn wieder unsichtbar falls in der nächsten suche ein anderer typ gesucht wird

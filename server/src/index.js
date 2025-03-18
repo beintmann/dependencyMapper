@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
     res.send(`
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="searchHandler.js" defer ></script>
+        <script src="formHandler.js" defer ></script>
         <form id="search-form" action="/search" method="POST" class="search-container">
         
             <input type="text" id="search" autocomplete="off" placeholder="Suchbegriff" required>
@@ -47,6 +48,7 @@ app.get('/', (req, res) => {
             
             <div id="anwendungen-container" class="sub-container" style="display: none;"></div>
             <div id="dienste-container" class="sub-container" style="display: none;"></div>
+            <div id="server-container" class="sub-container" style="display: none;"></div>
         
         </div>
     `);
@@ -112,7 +114,7 @@ app.get("/recommended", async (req, res) => {
 });
 
 //route für Suche
-app.post("/search", async (req, res) => {
+app.post("/search/Datensatz", async (req, res) => {
 
 
     //holt sich die Variablen aus dem Body
@@ -141,13 +143,14 @@ app.post("/search", async (req, res) => {
                  WHERE d."Bezeichnung" ILIKE $1;`, [`%${query}%`]
             );
 
-            const resultAnwendungen = await pool.query(
-                `SELECT
+            const resultAnwendungen = await pool.query(`
+                SELECT
 
                 DISTINCT a."Bezeichnung" AS anwendung_name  -- Name der Anwendung
     
                 FROM
                 "Datensatz" d
+                    
                 LEFT JOIN
                 "Datensatz_Dienst" dd ON d."DatensatzID" = dd."DatensatzID"
                 LEFT JOIN
@@ -174,5 +177,70 @@ app.post("/search", async (req, res) => {
         }
     } catch(err){
     console.error(err);
+    }
+});
+
+app.post("/search/Anwendung", async (req, res) => {
+
+    //holt sich die Variablen aus dem Body
+    const { query, type } = req.body;
+    console.log("selectedValue Wert:  " + type);
+
+    //schutz vor SQL-Injection
+    const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
+
+    try {
+        if (!allowedTables.includes(type)) {
+            return res.status(400).json({error: 'Invalid table name'});
+        }
+
+        const resultAnwendungen = await pool.query(`
+                    
+            SELECT 
+                a.* AS metadata
+
+            FROM 
+                "Anwendung" a
+            
+            WHERE a."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+        );
+
+        const resultDienste = await pool.query(
+            `SELECT 
+                Distinct d."Bezeichnung" AS dienst_name
+            FROM 
+                "Anwendung" a
+            LEFT JOIN 
+                "Dienst_Anwendung" da ON a."MetadatenUUID" = da."AnwendungID"
+            LEFT JOIN 
+                "Dienst" d ON da."DienstID" = d."MetadatenUUID"
+            WHERE a."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+        );
+
+        const resultServer = await pool.query(
+            `SELECT 
+                s."Name" AS server_name
+            FROM 
+                "Anwendung" a
+            LEFT JOIN 
+                "Server_Anwendung" sa ON a."MetadatenUUID" = sa."AnwendungID"
+            LEFT JOIN 
+                "Server" s ON sa."ServerID" = s."ServerID"
+            WHERE a."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+        );
+        //TODO: restliche abfragen (Server),
+        // TODO: metadaten bei Datensatz muss ergänzet und in Website eingefügt werden
+        //TODO: datenbank-abfragen für anwendung? klären mit Lars
+        //TODO: Dienst muss noch gemacht werden (route + abfragen)
+        res.json({
+
+            metadata: resultAnwendungen.rows,
+            Dienste: resultDienste.rows,
+            Server: resultServer.rows
+        });
+
+
+    }catch(err){
+        console.error(err);
     }
 });
