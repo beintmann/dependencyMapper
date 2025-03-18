@@ -49,7 +49,8 @@ app.get('/', (req, res) => {
             <div id="anwendungen-container" class="sub-container" style="display: none;"></div>
             <div id="dienste-container" class="sub-container" style="display: none;"></div>
             <div id="server-container" class="sub-container" style="display: none;"></div>
-        
+            <div id="datenbanken-container" class="sub-container" style="display: none;"></div>
+            
         </div>
     `);
 });
@@ -129,7 +130,7 @@ app.post("/search/Datensatz", async (req, res) => {
             return res.status(400).json({error: 'Invalid table name'});
         }
 
-        //Suche wenn nach einem Datensatz gesucht wird
+        //Suche, wenn nach einem Datensatz gesucht wird
         if (type == 'Datensatz') {
 
             const resultDienste = await pool.query(
@@ -168,9 +169,21 @@ app.post("/search/Datensatz", async (req, res) => {
 
             );
 
+            const resultDatensatz = await pool.query(`
+                    
+            SELECT 
+                d.* AS metadata
+
+            FROM 
+                "Datensatz" d
+            
+            WHERE d."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+            );
+
             res.json({
                 Dienste: resultDienste.rows,
-                Anwendungen: resultAnwendungen.rows
+                Anwendungen: resultAnwendungen.rows,
+                metadata: resultDatensatz.rows
             });
 
 
@@ -219,7 +232,7 @@ app.post("/search/Anwendung", async (req, res) => {
 
         const resultServer = await pool.query(
             `SELECT 
-                s."Name" AS server_name
+                DISTINCT s."Name" AS server_name
             FROM 
                 "Anwendung" a
             LEFT JOIN 
@@ -228,15 +241,30 @@ app.post("/search/Anwendung", async (req, res) => {
                 "Server" s ON sa."ServerID" = s."ServerID"
             WHERE a."Bezeichnung" ILIKE $1;`, [`%${query}%`]
         );
-        //TODO: restliche abfragen (Server),
-        // TODO: metadaten bei Datensatz muss ergänzet und in Website eingefügt werden
-        //TODO: datenbank-abfragen für anwendung? klären mit Lars
+
+        const resultDatenbank = await pool.query(
+            `SELECT 
+                DISTINCT d."Name" as datenbank_name
+            FROM 
+                "Anwendung" a
+            LEFT JOIN
+                "Anwendung_Datenbank" ad on ad."AnwendungID" = a."MetadatenUUID"
+            Left JOIN
+                "Datenbank" d on d."Name" = ad.name_datenbank
+            WHERE a."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+
+
+        );
+
+        //TODO: Metadaten bei datensatz ergänzen
         //TODO: Dienst muss noch gemacht werden (route + abfragen)
+        //TODO: SQL statements fixen bei autovervollständigung mit $1 und $2
         res.json({
 
             metadata: resultAnwendungen.rows,
             Dienste: resultDienste.rows,
-            Server: resultServer.rows
+            Server: resultServer.rows,
+            Datenbanken: resultDatenbank.rows
         });
 
 

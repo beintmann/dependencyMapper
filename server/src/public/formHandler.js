@@ -14,7 +14,7 @@ document.getElementById('slct-feld').addEventListener('change', function() {
     }
 });
 
-//funktion um die Margin der Metadatendiv an die höhe der Such-div anzupassen
+//funktion um die Margin der Metadaten-div an die höhe der Such-div anzupassen
 function adjustContentMargin() {
     const fixedDiv = document.getElementById('search-form');
     const metadataDiv = document.getElementById('metadata');

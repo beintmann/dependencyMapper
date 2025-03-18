@@ -48,12 +48,13 @@ document.getElementById("search-form").addEventListener("submit", async function
     const searchForm = document.getElementById("search-form");
     searchForm.style.position = "fixed"
     searchForm.style.top = "0";
+    adjustContentMargin();
 
 
     // Zeige die metadata-div an
     const metadataDiv = document.getElementById("metadata");
     metadataDiv.style.display = "block";
-    metadataDiv.textContent = "Hier Könnten Ihre Metadaten Stehen"
+    metadataDiv.innerHTML = "<h3 id='metadaten_header'><strong><u>Metadaten:</u></strong></h3>"
 
     //Anfrage mit parametern an die /search Route als POST
     const response = await fetch(`/search/${selectedType}`, {
@@ -84,6 +85,8 @@ document.getElementById("search-form").addEventListener("submit", async function
     const serverContainer = document.getElementById("server-container");
     serverContainer.className = "sub-container"
 
+    const datenbankenContainer = document.getElementById("datenbanken-container");
+
     if(results.metadata) {
         results.metadata.forEach(properties =>{
 
@@ -100,7 +103,9 @@ document.getElementById("search-form").addEventListener("submit", async function
 
     if (results.Dienste) {
         dienstContainer.style.display = "flex"
-        //füllt rechte liste mit Diensten
+        dienstContainer.innerHTML = '<h3>Dienste:</h3>'
+
+        //füllt container mit Dienst-elementen
         results.Dienste.forEach(dienst => {
             const dienstElement = document.createElement("dienst-element")
             dienstElement.className = "sub-element"
@@ -111,8 +116,9 @@ document.getElementById("search-form").addEventListener("submit", async function
 
     if (results.Anwendungen) {
         anwendungContainer.style.display = "flex"
+        anwendungContainer.innerHTML = '<h3>Anwendungen:</h3>'
 
-        // füllt linke liste mit Anwendungen
+        // füllt container mit anwendungs-elementen
         results.Anwendungen.forEach(anwendung => {
             const anwendungElement = document.createElement("anwendung-element")
             anwendungElement.className = "sub-element"
@@ -123,8 +129,9 @@ document.getElementById("search-form").addEventListener("submit", async function
     }
     if (results.Server) {
         serverContainer.style.display = "flex"
+        serverContainer.innerHTML = '<h3>Server:</h3>'
 
-        // füllt div mit Servern
+        // füllt container mit server-elementen
         results.Server.forEach(server => {
             const serverElement = document.createElement("server-element")
             serverElement.className = "sub-element"
@@ -132,6 +139,19 @@ document.getElementById("search-form").addEventListener("submit", async function
             serverContainer.appendChild(serverElement);
         })
 
+    }
+
+    if (results.Datenbanken) {
+        datenbankenContainer.style.display = "flex";
+        datenbankenContainer.innerHTML = '<h3>Datenbanken:</h3>'
+
+        // füllt container mit datenbank-elementen
+        results.Datenbanken.forEach(datenbank => {
+            const datenbankElement = document.createElement("datenbank-element")
+            datenbankElement.className = "sub-element"
+            datenbankElement.textContent = datenbank.datenbank_name
+            datenbankenContainer.appendChild(datenbankElement);
+        })
     }
 
 })
