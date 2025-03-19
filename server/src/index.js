@@ -257,9 +257,10 @@ app.post("/search/Anwendung", async (req, res) => {
 
         );
 
-        //TODO: Metadaten bei datensatz ergänzen
-        //TODO: Dienst muss noch gemacht werden (route + abfragen)
+        //TODO: Metadaten bei datensatz ergänzen DONE
+        //TODO: Dienst muss noch gemacht werden (route + abfragen) DONE
         //TODO: SQL statements fixen bei autovervollständigung mit $1 und $2
+        //TODO wenn feld null, notiz/benachrichtigung
         res.json({
 
             metadata: resultAnwendungen.rows,

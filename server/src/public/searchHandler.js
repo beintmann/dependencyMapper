@@ -90,15 +90,25 @@ document.getElementById("search-form").addEventListener("submit", async function
 
     const datensatzContainer = document.getElementById("datensatz-container");
 
+
+    //logik um metadaten auszulesen
     if(results.metadata) {
         results.metadata.forEach(properties =>{
 
             for (const value in properties) {
 
                 const newParagraph = document.createElement('p');
-                newParagraph.textContent = `${value}: ${properties[value]}`;
-                metadataDiv.appendChild(newParagraph);
 
+                // Sorgt dafür dass die property fettgedruckt ist
+                const strongElement = document.createElement('strong');
+                strongElement.textContent = `${value}: `;
+                newParagraph.appendChild(strongElement);
+
+                // Füge den Wert der property als Textknoten hinzu
+                newParagraph.appendChild(document.createTextNode(properties[value]));
+
+                // Füge den Paragraphen zum metadataDiv hinzu
+                metadataDiv.appendChild(newParagraph);
             }
         });
     }
