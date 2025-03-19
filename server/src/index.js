@@ -50,6 +50,7 @@ app.get('/', (req, res) => {
             <div id="dienste-container" class="sub-container" style="display: none;"></div>
             <div id="server-container" class="sub-container" style="display: none;"></div>
             <div id="datenbanken-container" class="sub-container" style="display: none;"></div>
+            <div id="datensatz-container" class="sub-container" style="display: none;"></div>
             
         </div>
     `);
@@ -114,7 +115,7 @@ app.get("/recommended", async (req, res) => {
     }
 });
 
-//route für Suche
+//route für Suche nach Datensatz
 app.post("/search/Datensatz", async (req, res) => {
 
 
@@ -265,6 +266,83 @@ app.post("/search/Anwendung", async (req, res) => {
             Dienste: resultDienste.rows,
             Server: resultServer.rows,
             Datenbanken: resultDatenbank.rows
+        });
+
+
+    }catch(err){
+        console.error(err);
+    }
+});
+
+//Route wenn Dienst ausgewählt ist
+app.post("/search/Dienst", async (req, res) => {
+
+    //holt sich die Variablen aus dem Body
+    const { query, type } = req.body;
+    console.log("selectedValue Wert:  " + type);
+
+    //schutz vor SQL-Injection
+    const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
+
+    try {
+        if (!allowedTables.includes(type)) {
+            return res.status(400).json({error: 'Invalid table name'});
+        }
+
+        const resultDienste = await pool.query(`
+
+            SELECT 
+                di.* AS metadata
+
+            FROM 
+                "Dienst" di
+
+            WHERE 
+                di."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+        );
+
+        const resultDatensatz = await pool.query(`
+
+            SELECT 
+                DISTINCT d."Bezeichnung" AS datensatz_name
+
+            FROM 
+                "Dienst" di
+            LEFT JOIN
+                "Datensatz_Dienst" dd on dd."DatensatzID" = di."MetadatenUUID"
+            LEFT JOIN
+                "Datensatz" d on d."DatensatzID" = dd."DatensatzID"
+            
+            WHERE 
+                di."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+        );
+
+        const resultsAnwendungen = await pool.query(`
+
+        SELECT
+            DISTINCT a."Bezeichnung" as anwendung_name
+        FROM
+            "Dienst" di
+        LEFT JOIN
+            "Dienst_Anwendung" da on da."DienstID" = di."MetadatenUUID"
+        LEFT JOIN
+            "Anwendung" a on a."MetadatenUUID" = da."AnwendungID"
+        WHERE 
+            di."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+
+        );
+
+
+
+
+
+
+        res.json({
+
+            metadata: resultDienste.rows,
+            Datensaetze: resultDatensatz.rows,
+            Anwendungen: resultsAnwendungen.rows
+
         });
 
 

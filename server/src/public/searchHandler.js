@@ -40,6 +40,7 @@ document.getElementById("search-form").addEventListener("submit", async function
     event.preventDefault(); //verhindert das standart submit-verhalten des formulars
 
     clearSubContainers();
+    document.getElementById("suggestions").innerHTML = "";
 
     const query = document.getElementById("search").value;
     const selectedType = document.getElementById("slct-feld").value;
@@ -87,6 +88,8 @@ document.getElementById("search-form").addEventListener("submit", async function
 
     const datenbankenContainer = document.getElementById("datenbanken-container");
 
+    const datensatzContainer = document.getElementById("datensatz-container");
+
     if(results.metadata) {
         results.metadata.forEach(properties =>{
 
@@ -124,7 +127,7 @@ document.getElementById("search-form").addEventListener("submit", async function
             anwendungElement.className = "sub-element"
             anwendungElement.textContent = anwendung.anwendung_name
             anwendungContainer.appendChild(anwendungElement);
-        })
+        });
 
     }
     if (results.Server) {
@@ -137,7 +140,7 @@ document.getElementById("search-form").addEventListener("submit", async function
             serverElement.className = "sub-element"
             serverElement.textContent = server.server_name
             serverContainer.appendChild(serverElement);
-        })
+        });
 
     }
 
@@ -151,10 +154,22 @@ document.getElementById("search-form").addEventListener("submit", async function
             datenbankElement.className = "sub-element"
             datenbankElement.textContent = datenbank.datenbank_name
             datenbankenContainer.appendChild(datenbankElement);
-        })
+        });
     }
 
-})
+    if(results.Datensaetze) {
+        datensatzContainer.style.display = "flex"
+        datensatzContainer.innerHTML = '<h3>Datensätze</h3>'
+
+        results.Datensaetze.forEach(datensatz => {
+            const datensatzElement = document.createElement("datensatz-element")
+            datensatzElement.className = "sub-element"
+            datensatzElement.textContent = datensatz.datensatz_name
+            datensatzContainer.appendChild(datensatzElement);
+        });
+    }
+
+});
 
 
 function clearSubContainers() {
