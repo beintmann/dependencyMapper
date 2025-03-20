@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="searchHandler.js" defer ></script>
         <script src="formHandler.js" defer ></script>
+        <script src="subelementHandler.js" defer ></script>
         <form id="search-form" action="/search" method="POST" class="search-container">
         
             <input type="text" id="search" autocomplete="off" placeholder="Suchbegriff" required>
