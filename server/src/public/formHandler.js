@@ -26,8 +26,5 @@ function adjustContentMargin() {
     metadataDiv.style.marginTop = fixedDivHeight + 'px';
 }
 
-// Aufruf der Funktion beim Laden der Seite
 window.onload = adjustContentMargin;
-
-//Aufruf der Funktion, wenn die Fenstergröße geändert wird
 window.onresize = adjustContentMargin;

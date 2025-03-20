@@ -66,7 +66,7 @@ document.getElementById("search-form").addEventListener("submit", async function
 
         // Bewegt das Suchformular nach oben
         const searchForm = document.getElementById("search-form");
-        searchForm.style.position = "fixed"
+        searchForm.style.position = "sticky"
         searchForm.style.top = "0";
         adjustContentMargin();
 
