@@ -19,10 +19,12 @@ document.getElementById("search").addEventListener("input", async function(){
         suggestions.forEach(suggestion => {
             const li = document.createElement("li")
             li.textContent = suggestion.Bezeichnung;
+            li.textContent += (`  |     ` + suggestion.Typ);
             SuggestionList.appendChild(li);
 
             li.addEventListener("click", () => {
                 document.getElementById("search").value = suggestion.Bezeichnung; //setzt den Wert des suchfeldes gleich mit dem geklickten Vorschlag
+                window.suggestionType = suggestion.Typ;
 
                 SuggestionList.innerHTML = "" //leert die Vorschläge wenn auf einen Vorschlag geklcikt wurde
             });
@@ -52,7 +54,7 @@ document.getElementById("search-form").addEventListener("submit", async function
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query, type: selectedType })
+        body: JSON.stringify({ query, type: selectedType, dienstTyp: window.suggestionType })
     });
 
     // zum testen ausgabe der ergebnisse in der konsole
@@ -60,7 +62,7 @@ document.getElementById("search-form").addEventListener("submit", async function
     console.log(results);
 
     if(results.metadata.length > 1) {
-        alert("bitte überprüfen Sie Ihre Eingaben")
+        alert("Der Suchbegriff scheint fehlerhaft zu sein. Bitte überprüfen Sie Ihre Eingaben.")
     }else{
 
 

@@ -103,7 +103,11 @@ app.get("/recommended", async (req, res) => {
     // Query an Datenbank mit Variablen aus der URL
     try {
         const result = await pool.query(
-            `SELECT * FROM public."${selectedValue}" WHERE "Bezeichnung" ILIKE $1 LIMIT 10`, [`%${suchbegriff}%`]
+            `SELECT 
+                * 
+            FROM 
+                public."${selectedValue}" 
+            WHERE "Bezeichnung" ILIKE $1 LIMIT 10`, [`%${suchbegriff}%`]
         );
         console.log(selectedValue)
         console.log("suchbegriff: " + suchbegriff)
@@ -280,8 +284,9 @@ app.post("/search/Anwendung", async (req, res) => {
 app.post("/search/Dienst", async (req, res) => {
 
     //holt sich die Variablen aus dem Body
-    const { query, type } = req.body;
+    const { query, type, dienstTyp } = req.body;
     console.log("selectedValue Wert:  " + type);
+    console.log("dienstTyp= " + dienstTyp)
 
     //schutz vor SQL-Injection
     const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
@@ -291,48 +296,72 @@ app.post("/search/Dienst", async (req, res) => {
             return res.status(400).json({error: 'Invalid table name'});
         }
 
-        const resultDienste = await pool.query(`
 
+        //baut SQL-Query je nachdem ob der dienstTyp gesetzt ist oder nicht
+        let sqlQuery = `
             SELECT 
                 di.* AS metadata
-
             FROM 
                 "Dienst" di
-
             WHERE 
-                di."Bezeichnung" ILIKE $1;`, [`%${query}%`]
-        );
+                di."Bezeichnung" ILIKE $1`;
 
-        const resultDatensatz = await pool.query(`
+        // Parameter-Array für die Abfrage
+        const params = [`%${query}%`];
 
+        // Überprüft, ob dienstTyp gültig ist
+        if (dienstTyp && (dienstTyp === 'WMS' || dienstTyp === 'WFS')) {
+            sqlQuery += ` AND di."Typ" = $2`;
+            params.push(dienstTyp); // Füge den dienstTyp zum Parameter-Array hinzu
+        }
+        const resultDienste = await pool.query(sqlQuery, params);
+
+
+
+        //Datensatz infos
+        let sqlDatensatzQuery = `
             SELECT 
                 DISTINCT d."Bezeichnung" AS datensatz_name
-
             FROM 
                 "Dienst" di
             LEFT JOIN
                 "Datensatz_Dienst" dd on dd."DatensatzID" = di."MetadatenUUID"
             LEFT JOIN
                 "Datensatz" d on d."DatensatzID" = dd."DatensatzID"
-            
             WHERE 
-                di."Bezeichnung" ILIKE $1;`, [`%${query}%`]
-        );
+                di."Bezeichnung" ILIKE $1`;
+        let datensatzParams = [`%${query}%`];
 
-        const resultsAnwendungen = await pool.query(`
+        // Überprüft, ob dienstTyp gültig ist
+        if (dienstTyp && (dienstTyp === 'WMS' || dienstTyp === 'WFS')) {
+            sqlDatensatzQuery += ` AND di."Typ" = $2`;
+            datensatzParams.push(dienstTyp); // Füge den dienstTyp zum Parameter-Array hinzu
+        }
 
-        SELECT
-            DISTINCT a."Bezeichnung" as anwendung_name
-        FROM
-            "Dienst" di
-        LEFT JOIN
-            "Dienst_Anwendung" da on da."DienstID" = di."MetadatenUUID"
-        LEFT JOIN
-            "Anwendung" a on a."MetadatenUUID" = da."AnwendungID"
-        WHERE 
-            di."Bezeichnung" ILIKE $1;`, [`%${query}%`]
+        const resultDatensatz = await pool.query(sqlDatensatzQuery, datensatzParams);
 
-        );
+
+        // Anwendungen
+        let sqlAnwendungenQuery = `
+            SELECT
+                DISTINCT a."Bezeichnung" as anwendung_name
+            FROM
+                "Dienst" di
+            LEFT JOIN
+                "Dienst_Anwendung" da on da."DienstID" = di."MetadatenUUID"
+            LEFT JOIN
+                "Anwendung" a on a."MetadatenUUID" = da."AnwendungID"
+            WHERE 
+                di."Bezeichnung" ILIKE $1`;
+        let anwendungenParams = [`%${query}%`];
+
+        // Überprüft, ob dienstTyp gültig ist
+        if (dienstTyp && (dienstTyp === 'WMS' || dienstTyp === 'WFS')) {
+            sqlAnwendungenQuery += ` AND di."Typ" = $2`;
+            anwendungenParams.push(dienstTyp); // Füge den dienstTyp zum Parameter-Array hinzu
+        }
+
+        const resultsAnwendungen = await pool.query(sqlAnwendungenQuery, anwendungenParams);
 
 
 
