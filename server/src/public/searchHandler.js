@@ -77,8 +77,9 @@ document.getElementById("search-form").addEventListener("submit", async function
         metadataDiv.style.display = "block";
         metadataDiv.innerHTML = "<h3 id='metadaten_header'><strong><u>Metadaten:</u></strong></h3>"
 
-        //Logik für Befüllung der Container mit den Daten aus der Response
 
+
+        //Logik für Befüllung der Container mit den Daten aus der Response
         const resultContainer = document.getElementById("results-container");
         resultContainer.style.display = "flex"
 
@@ -103,6 +104,7 @@ document.getElementById("search-form").addEventListener("submit", async function
 
                 for (const value in properties) {
 
+                    //neuer Paragraph um die Werte aus dem Rückgabeobjekt auszulesen und zu printen
                     const newParagraph = document.createElement('p');
 
                     // Sorgt dafür dass die property fettgedruckt ist

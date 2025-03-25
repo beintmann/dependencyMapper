@@ -62,7 +62,7 @@ button:hover{
 
 
 
-/* für vorschlagliste */
+/* für Vorschlagliste */
 }
 
 #suggestions li {
@@ -88,18 +88,7 @@ button:hover{
     margin: 0;
 }
 
-#metadata {
-    background-color: #FFFFFF;
-    padding: 10px;
-    border-radius: 8px; /* Runde Ecken */
-    margin-top: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
-    width: 87.5%;
-
-}
-
-
-
+/*Container für Ergebnisse*/
 #results-container {
     display: flex;
     width: 100%;
@@ -153,3 +142,33 @@ button:hover{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Normaler Schatten beim Klicken */
 }
 
+
+/*Metadaten*/
+#metadata {
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 8px; /* Runde Ecken */
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
+    width: 87.5%;
+
+}
+
+.metadata p {
+    background-color: #ffffff; /* Weißer Hintergrund für die Absätze */
+    border-left: 4px solid #00796b; /* Linker farbiger Rand */
+    border-radius: 4px; /* Abgerundete Ecken */
+    padding: 10px 15px; /* Innenabstand */
+    margin: 10px 0; /* Abstand zwischen den Absätzen */
+    transition: background-color 0.3s; /* Sanfter Übergang für den Hover-Effekt */
+    font-size: 16px; /* Schriftgröße */
+    line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
+}
+
+.metadata p:hover{
+    background-color: #e0f7fa;
+}
+
+.metadata strong {
+    color: #00796b; /* Farbe für die fettgedruckten Texte */
+}
