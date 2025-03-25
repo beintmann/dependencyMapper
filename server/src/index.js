@@ -325,7 +325,7 @@ app.post("/search/Dienst", async (req, res) => {
             FROM 
                 "Dienst" di
             LEFT JOIN
-                "Datensatz_Dienst" dd on dd."DatensatzID" = di."MetadatenUUID"
+                "Datensatz_Dienst" dd on dd."DienstID" = di."MetadatenUUID"
             LEFT JOIN
                 "Datensatz" d on d."DatensatzID" = dd."DatensatzID"
             WHERE 
