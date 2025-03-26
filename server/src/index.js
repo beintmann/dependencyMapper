@@ -109,10 +109,7 @@ app.get("/recommended", async (req, res) => {
                 public."${selectedValue}" 
             WHERE "Bezeichnung" ILIKE $1 LIMIT 10`, [`%${suchbegriff}%`]
         );
-        console.log(selectedValue)
-        console.log("suchbegriff: " + suchbegriff)
-        console.log(result.rows)
-        console.log("rowCount: " + result.rowCount)
+
         res.json(result.rows);
 
     }catch(err){
@@ -196,6 +193,7 @@ app.post("/search/Datensatz", async (req, res) => {
         }
     } catch(err){
     console.error(err);
+    res.status(500).send('Fehler bei der Suche nach Datensätzen');
     }
 });
 
@@ -277,6 +275,7 @@ app.post("/search/Anwendung", async (req, res) => {
 
     }catch(err){
         console.error(err);
+        res.status(500).send('Fehler bei der Suche nach Anwendungen');
     }
 });
 
@@ -379,5 +378,6 @@ app.post("/search/Dienst", async (req, res) => {
 
     }catch(err){
         console.error(err);
+        res.status(500).send('Fehler bei der Suche nach Dienst');
     }
 });
