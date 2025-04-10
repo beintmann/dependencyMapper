@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const routes = require('./routes'); // Importiere die Routen
+const routes = require('./routes'); // Importiert die Routen
 
 app.use(express.static('src/public'));
 app.use(express.json());

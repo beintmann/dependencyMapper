@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
         <script src="searchHandler.js" defer ></script>
         <script src="formHandler.js" defer ></script>
         <script src="subelementHandler.js" defer ></script>
+        
         <form id="search-form" action="/search" method="POST" class="search-container">
             <input type="text" id="search" autocomplete="off" placeholder="Suchbegriff" required>
             <select id="slct-feld" name="type">
@@ -27,6 +28,8 @@ router.get('/', (req, res) => {
             <button id="submit-btn" type="submit">Suchen</button>
             <ul id="suggestions" class="suggestions-list"></ul>
         </form>
+        
+        
         <div id="metadata" class="metadata" style="display: none;"></div>
         <div id="results-container" class="results-container" style="display: none; width:90%">
             <div id="anwendungen-container" class="sub-container" style="display: none;"></div>

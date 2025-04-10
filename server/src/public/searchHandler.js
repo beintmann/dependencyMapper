@@ -5,13 +5,13 @@ document.getElementById("search").addEventListener("input", async function(){
     const selectedType = document.getElementById("slct-feld").value;
 
     // Erstellt eine Vorschlagliste bei einer Eingabe von 2 oder Mehr
-    if (query.length > 2){
+    if (query.length > 1){
         const response = await fetch(`/recommended?q=${query}&v=${selectedType}`);
         const suggestions = await response.json();
         console.log(suggestions)
         const SuggestionList = document.getElementById("suggestions")
 
-        //leert die liste jedes Mal wenn etwas neues eingegeben wird
+        //leert die liste jedes Mal, wenn etwas Neues eingegeben wird
         SuggestionList.innerHTML = ""
 
 
@@ -26,7 +26,7 @@ document.getElementById("search").addEventListener("input", async function(){
                 document.getElementById("search").value = suggestion.Bezeichnung; //setzt den Wert des suchfeldes gleich mit dem geklickten Vorschlag
                 window.suggestionType = suggestion.Typ;
 
-                SuggestionList.innerHTML = "" //leert die Vorschläge wenn auf einen Vorschlag geklcikt wurde
+                SuggestionList.innerHTML = "" //leert die Vorschläge, wenn auf einen Vorschlag geklickt wurde
             });
 
 
@@ -36,7 +36,7 @@ document.getElementById("search").addEventListener("input", async function(){
     }
 });
 
-//on sumbit
+//on submit
 
 document.getElementById("search-form").addEventListener("submit", async function(event){
     event.preventDefault(); //verhindert das standart submit-verhalten des formulars
@@ -57,7 +57,7 @@ document.getElementById("search-form").addEventListener("submit", async function
         body: JSON.stringify({ query, type: selectedType, dienstTyp: window.suggestionType })
     });
 
-    // zum testen ausgabe der ergebnisse in der konsole
+
     const results = await response.json();
     console.log(results);
 

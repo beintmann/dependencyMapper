@@ -67,7 +67,7 @@ button:hover{
 
 #suggestions li {
     padding: 10px;
-    cursor: pointer; /* Zeigt an, dass es klickbar ist */
+    cursor: pointer;
     display: block; /* Nur so viel Platz wie der Inhalt */
 }
 
@@ -150,18 +150,18 @@ button:hover{
     border-radius: 8px; /* Runde Ecken */
     margin-top: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
-    width: 87.5%;
+    width: 89%;
 
 }
 
 .metadata p {
-    background-color: #ffffff; /* Weißer Hintergrund für die Absätze */
+    background-color: #ffffff;
     border-left: 4px solid #00796b; /* Linker farbiger Rand */
-    border-radius: 4px; /* Abgerundete Ecken */
-    padding: 10px 15px; /* Innenabstand */
+    border-radius: 4px;
+    padding: 10px 15px;
     margin: 10px 0; /* Abstand zwischen den Absätzen */
     transition: background-color 0.3s; /* Sanfter Übergang für den Hover-Effekt */
-    font-size: 16px; /* Schriftgröße */
+    font-size: 16px;
     line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
 }
 
@@ -172,3 +172,4 @@ button:hover{
 .metadata strong {
     color: #00796b; /* Farbe für die fettgedruckten Texte */
 }
+
