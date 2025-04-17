@@ -240,8 +240,6 @@ router.post("/search/Dienst", async (req, res) => {
 
     //holt sich die Variablen aus dem Body
     const { query, type, dienstTyp } = req.body;
-    console.log("selectedValue Wert:  " + type);
-    console.log("dienstTyp= " + dienstTyp)
 
     //schutz vor SQL-Injection
     const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
@@ -317,10 +315,6 @@ router.post("/search/Dienst", async (req, res) => {
         }
 
         const resultsAnwendungen = await pool.query(sqlAnwendungenQuery, anwendungenParams);
-
-
-
-
 
 
         res.json({
