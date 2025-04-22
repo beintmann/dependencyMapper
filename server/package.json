@@ -1,0 +1,38 @@
+{
+  "name": "dependencymapper",
+  "version": "1.0.0",
+  "description": "Tool to map dependencies between apps, services and databases in spatial infrastructures.",
+  "main": "src/app.js",
+  "type": "commonjs",
+  "license": "AGPL-version-3.0",
+  "private": false,
+  "engines": {
+    "node": ">= 18.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": "",
+  "keywords": [],
+  "author": {
+    "name": "",
+    "email": "",
+    "url": ""
+  },
+  "contributors": [],
+  "scripts": {
+    "start": "nodemon .",
+    "dev": "",
+    "test": ""
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

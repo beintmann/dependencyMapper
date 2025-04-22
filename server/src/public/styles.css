@@ -1,0 +1,171 @@
+/* für suchleiste*/
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    display: flex; /* Verwende Flexbox für das Layout */
+    flex-direction: column;
+    justify-content: center; /* Zentriere den Inhalt horizontal */
+    align-items: center; /* Zentriere den Inhalt vertikal */
+    height: 100vh; /* Setze die Höhe auf 100% der Ansichtshöhe */
+    margin: 0; /* Entferne Standard-Margen */
+}
+
+form {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Maximalbreite für größere Bildschirme */
+
+}
+
+#search {
+    width: calc(100% - 22px); /* Breite des Suchfeldes */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+button {
+    background-color: rgb(237, 21, 21); /* Farbe des Button */
+    color: white; /* Textfarbe */
+    border: none; /* Keine Rahmenlinie */
+    border-radius: 25px; /* Runde Ecken */
+    padding: 10px 15px; /* Innenabstand */
+    font-size: 14px; /* Schriftgröße */
+    cursor: pointer; /* Zeiger-Cursor beim Hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Übergangseffekte */
+}
+
+button:hover {
+    background-color: #AA0404;
+}
+
+#submit-btn {
+
+    margin-left: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#slct-feld {
+    margin-left: 10px;
+
+
+    /* für Vorschlagliste */
+}
+
+#suggestions li {
+    padding: 10px;
+    cursor: pointer;
+    display: block; /* Nur so viel Platz wie der Inhalt */
+}
+
+
+.suggestions-list {
+    position: absolute;
+    top: 100%; /* Position unter dem Suchfeld */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px; /* Maximale Höhe der Liste */
+    overflow-y: auto; /* Scrollen, wenn die Liste zu lang ist */
+    z-index: 1000; /* Über anderen Elementen anzeigen */
+    list-style: none; /* Keine Aufzählungszeichen */
+    padding: 0;
+    margin: 0;
+}
+
+/*Container für Ergebnisse*/
+#results-container {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Intensivierter Schatten */
+}
+
+.sub-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px; /* Mehr Innenabstand für bessere Lesbarkeit */
+    overflow-y: auto; /* Ermöglicht das Scrollen */
+    border-right: 1px solid #e0e0e0;
+    transition: background-color 0.3s; /* Sanfter Übergang für Hintergrundfarbe */
+}
+
+.sub-container:last-child {
+    border-right: none;
+}
+
+.sub-element {
+    font-weight: 600;
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    height: 60px;
+    border-radius: 6px; /* Abgerundete Ecken */
+    transition: background-color 0.3s, transform 0.2s; /* Übergänge für Hintergrundfarbe und Transformation */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sanfter Schatten */
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    color: #333; /* Dunkelgraue Schriftfarbe */
+    cursor: pointer;
+}
+
+.sub-element:hover {
+    background-color: #e0e0e0; /* Hellerer Hintergrund beim Hover */
+    transform: translateY(-3px); /* Leichte Anhebung beim Hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Intensivierter Schatten beim Hover */
+}
+
+.sub-element:active {
+    transform: translateY(1px); /* Leichte Senkung beim Klicken */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Normaler Schatten beim Klicken */
+}
+
+
+/*Metadaten*/
+#metadata {
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 8px; /* Runde Ecken */
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
+    width: 89%;
+
+}
+
+.metadata p {
+    background-color: #ffffff;
+    border-left: 4px solid #00796b; /* Linker farbiger Rand */
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin: 10px 0; /* Abstand zwischen den Absätzen */
+    transition: background-color 0.3s; /* Sanfter Übergang für den Hover-Effekt */
+    font-size: 16px;
+    line-height: 1.5; /* Zeilenhöhe für bessere Lesbarkeit */
+}
+
+.metadata p:hover {
+    background-color: #e0f7fa;
+}
+
+.metadata strong {
+    color: #00796b; /* Farbe für die fettgedruckten Texte */
+}
+
