@@ -125,7 +125,7 @@ document.getElementById("search-form").addEventListener("submit", async function
             results.Dienste.forEach(dienst => {
                 const dienstElement = document.createElement("dienst-element")
                 dienstElement.className = "sub-element"
-                dienstElement.textContent = dienst.dienst_name
+                dienstElement.textContent = dienst.dienst_name + " | " + dienst.dienst_typ
                 dienstContainer.appendChild(dienstElement);
             });
         }
@@ -186,7 +186,7 @@ document.getElementById("search-form").addEventListener("submit", async function
         //TODO: check ob wms/WFS
         document.querySelectorAll(".sub-element").forEach(element => {
             element.addEventListener("click", function () {
-                document.getElementById("search").value = element.textContent;
+                document.getElementById("search").value = element.textContent.split(" | ")[0];
                 const elementTyp = element.tagName.toLowerCase().split('-')[0].charAt(0).toUpperCase() + element.tagName.toLowerCase().split('-')[0].slice(1);
 
                 const slctFeld = document.getElementById('slct-feld');
@@ -194,9 +194,14 @@ document.getElementById("search-form").addEventListener("submit", async function
 
                     if (option.value == elementTyp) {
                         option.selected = true;
-                        break;
+
+                        if (option.value == "Dienst") {
+                            window.suggestionType = element.textContent.split(" | ")[1]
+                        }
+                    break;
                     }
                 }
+
 
                 document.getElementById("submit-btn").click(); // Simuliere einen Klick auf den Suchbutton
             });

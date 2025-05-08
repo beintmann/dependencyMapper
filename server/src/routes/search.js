@@ -27,7 +27,7 @@ router.post("/Datensatz", async (req, res) => {
         if (type == 'Datensatz') {
 
             const resultDienste = await pool.query(
-                `SELECT dienst."Bezeichnung" AS dienst_name -- Name des Dienstes
+                `SELECT dienst."Bezeichnung" AS dienst_name, dienst."Typ" AS dienst_typ
                  FROM "Datensatz" data
                           LEFT JOIN
                       "Datensatz_Dienst" dd ON data."DatensatzID" = dd."DatensatzID"
@@ -103,7 +103,7 @@ router.post("/Anwendung", async (req, res) => {
         );
 
         const resultDienste = await pool.query(
-            `SELECT Distinct d."Bezeichnung" AS dienst_name
+            `SELECT Distinct d."Bezeichnung" AS dienst_name, d."Typ" AS dienst_typ
              FROM "Anwendung" a
                       LEFT JOIN
                   "Dienst_Anwendung" da ON a."MetadatenUUID" = da."AnwendungID"
