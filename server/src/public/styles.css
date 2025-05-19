@@ -107,25 +107,26 @@ button:hover {
 .sub-container:last-child {
     border-right: none;
 }
-
 .sub-element {
     font-weight: 600;
     background-color: #f9f9f9;
     margin: 10px 0;
     height: 60px;
+
     border-radius: 6px; /* Abgerundete Ecken */
     transition: background-color 0.3s, transform 0.2s; /* Übergänge für Hintergrundfarbe und Transformation */
 
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sanfter Schatten */
     font-family: 'Arial', sans-serif;
-    font-size: 20px;
     color: #333; /* Dunkelgraue Schriftfarbe */
     cursor: pointer;
 }
+
 
 .sub-element:hover {
     background-color: #e0e0e0; /* Hellerer Hintergrund beim Hover */

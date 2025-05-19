@@ -182,8 +182,10 @@ document.getElementById("search-form").addEventListener("submit", async function
             });
         }
 
+        //passt schriftgröße an textmenge an
+        adjustFontSize();
+
         // Füge Event-Listener für alle sub-elemente hinzu
-        //TODO: check ob wms/WFS
         document.querySelectorAll(".sub-element").forEach(element => {
             element.addEventListener("click", function () {
                 document.getElementById("search").value = element.textContent.split(" | ")[0];

@@ -10,5 +10,25 @@ function adjustContentMargin() {
     metadataDiv.style.marginTop = fixedDivHeight + 'px';
 }
 
+function adjustFontSize(){
+
+    document.querySelectorAll(".sub-element").forEach(element => {
+        const subelementText = element.textContent
+        const textLength = element.textContent.length
+
+        let newFontSize = '19px'
+
+        if (textLength < 10) {
+            newFontSize = "22px"
+        }
+        if (textLength > 20) {
+            newFontSize = "16px"
+        }
+
+        element.style.fontSize = newFontSize;
+    })
+
+}
+
 window.onload = adjustContentMargin;
 window.onresize = adjustContentMargin;
