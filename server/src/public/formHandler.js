@@ -10,10 +10,10 @@ function adjustContentMargin() {
     metadataDiv.style.marginTop = fixedDivHeight + 'px';
 }
 
+// Passt die schriftgröße an die menge an Text in den subelementen an
 function adjustFontSize(){
 
     document.querySelectorAll(".sub-element").forEach(element => {
-        const subelementText = element.textContent
         const textLength = element.textContent.length
 
         let newFontSize = '19px'
