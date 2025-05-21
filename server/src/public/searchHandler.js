@@ -1,3 +1,5 @@
+
+//on Input
 const suggestionListElement = document.getElementById("suggestions");
 document.getElementById("search").addEventListener("input", async function () {
     const query = this.value;
@@ -57,6 +59,7 @@ document.getElementById("search-form").addEventListener("submit", async function
 
     const results = await response.json();
 
+
     if (results.metadata.length > 1) {
         alert("Der Suchbegriff scheint fehlerhaft zu sein. Bitte überprüfen Sie Ihre Eingaben.")
     } else {
@@ -114,73 +117,11 @@ document.getElementById("search-form").addEventListener("submit", async function
                 }
             });
         }
-
-
-        if (results.Dienste) {
-            dienstContainer.style.display = "flex"
-            dienstContainer.innerHTML = '<h3>Dienste:</h3>'
-
-
-            //füllt container mit Dienst-elementen
-            results.Dienste.forEach(dienst => {
-                const dienstElement = document.createElement("dienst-element")
-                dienstElement.className = "sub-element"
-                dienstElement.textContent = dienst.dienst_name + " | " + dienst.dienst_typ
-                dienstContainer.appendChild(dienstElement);
-            });
-        }
-
-        if (results.Anwendungen) {
-            anwendungContainer.style.display = "flex"
-            anwendungContainer.innerHTML = '<h3>Anwendungen:</h3>'
-
-            // füllt container mit anwendungs-elementen
-            results.Anwendungen.forEach(anwendung => {
-                const anwendungElement = document.createElement("anwendung-element")
-                anwendungElement.className = "sub-element"
-                anwendungElement.textContent = anwendung.anwendung_name
-                anwendungContainer.appendChild(anwendungElement);
-            });
-
-        }
-        if (results.Server) {
-            serverContainer.style.display = "flex"
-            serverContainer.innerHTML = '<h3>Server:</h3>'
-
-            // füllt container mit server-elementen
-            results.Server.forEach(server => {
-                const serverElement = document.createElement("server-element")
-                serverElement.className = "sub-element"
-                serverElement.textContent = server.server_name
-                serverContainer.appendChild(serverElement);
-            });
-
-        }
-
-        if (results.Datenbanken) {
-            datenbankenContainer.style.display = "flex";
-            datenbankenContainer.innerHTML = '<h3>Datenbanken:</h3>'
-
-            // füllt container mit datenbank-elementen
-            results.Datenbanken.forEach(datenbank => {
-                const datenbankElement = document.createElement("datenbank-element")
-                datenbankElement.className = "sub-element"
-                datenbankElement.textContent = datenbank.datenbank_name
-                datenbankenContainer.appendChild(datenbankElement);
-            });
-        }
-
-        if (results.Datensaetze) {
-            datensatzContainer.style.display = "flex"
-            datensatzContainer.innerHTML = '<h3>Datensätze</h3>'
-
-            results.Datensaetze.forEach(datensatz => {
-                const datensatzElement = document.createElement("datensatz-element")
-                datensatzElement.className = "sub-element"
-                datensatzElement.textContent = datensatz.datensatz_name
-                datensatzContainer.appendChild(datensatzElement);
-            });
-        }
+        createAndFillSubelement(dienstContainer, "Dienste:", results.Dienste, "dienst_name", 'dienst-element');
+        createAndFillSubelement(anwendungContainer, "Anwendungen:", results.Anwendungen, "anwendung_name", 'anwendung-element');
+        createAndFillSubelement(serverContainer, "Server:", results.Server, "server_name", 'server-element');
+        createAndFillSubelement(datenbankenContainer, "Datenbanken:", results.Datenbanken, "datenbank_name", 'datenbank-element');
+        createAndFillSubelement(datensatzContainer, "Datensätze:", results.Datensaetze, "datensatz_name", 'datensatz-element');
 
         //passt schriftgröße an textmenge an
         adjustFontSize();
@@ -222,4 +163,3 @@ function clearSubContainers() {
         container.style.display = "none" //macht ihn wieder unsichtbar falls in der nächsten suche ein anderer typ gesucht wird
     });
 }
-
