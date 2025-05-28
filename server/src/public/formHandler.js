@@ -19,9 +19,7 @@ function adjustFontSize(){
 
         let newFontSize = '19px'
 
-        if (textLength < 10) {
-            newFontSize = "22px"
-        }
+
         if (textLength > 20) {
             newFontSize = "16px"
         }

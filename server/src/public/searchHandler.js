@@ -1,9 +1,12 @@
 
 //on Input
 const suggestionListElement = document.getElementById("suggestions");
-document.getElementById("search").addEventListener("input", async function () {
+const searchInput = document.getElementById("search");
+let selectedIndex = -1;
+searchInput.addEventListener("input", async function () {
     const query = this.value;
     const selectedType = document.getElementById("slct-feld").value;
+    selectedIndex = -1;
 
 
     if (query.length <= 1) {
@@ -20,7 +23,7 @@ document.getElementById("search").addEventListener("input", async function () {
     //leert die liste jedes Mal, wenn etwas Neues eingegeben wird
     suggestionListElement.innerHTML = ""
 
-    // erstellt Listenelemente in der suggestionListElement für jedes Objekt vom typ Bezeichnung, das in der JSON-Response zurückgegeben wurde
+    // erstellt Listenelemente in suggestionListElement für jedes Objekt vom typ Bezeichnung, das in der JSON-Response zurückgegeben wurde
     suggestions.forEach(suggestion => {
         const li = document.createElement("li")
         li.textContent = suggestion.Bezeichnung;
@@ -36,6 +39,39 @@ document.getElementById("search").addEventListener("input", async function () {
     });
 
 });
+
+//keyboard navigation TODO: auslagern
+searchInput.addEventListener("keydown", function(e){
+    const listItems = suggestionListElement.querySelectorAll("li");
+    if (!listItems.length) return;
+
+    if (e.key === "ArrowDown") {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % listItems.length;
+        updateHighlighting(listItems);
+    }
+
+    else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        selectedIndex = ((selectedIndex - 1) + listItems.length ) % listItems.length;
+        updateHighlighting();
+    }
+
+    else if (e.key === "Enter") {
+        if (selectedIndex >= 0 && selectedIndex <= listItems.length) {
+            e.preventDefault();
+            let selectedItem = listItems[selectedIndex];
+            searchInput.value = selectedItem.textContent.split("|")[0].trim();
+            suggestionListElement.innerHTML = "";
+        }
+    }
+})
+
+function updateHighlighting(listItems) {
+    listItems.forEach((item, i) => {
+        item.classList.toggle("highlight", i === selectedIndex)
+    });
+}
 
 //on submit
 

@@ -9,14 +9,15 @@ const pool = new pg.Pool({
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD
 });
-//route für Suche nach Datensatz
+
+//Schutz vor SQL-Injection -- erlaubte Tabellennamen in der Anfrage
+const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
+
+//Route für Suche nach Datensatz
 router.post("/Datensatz", async (req, res) => {
 
     //holt sich die Variablen aus dem Body
     const {query, type} = req.body;
-
-    //schutz vor SQL-Injection
-    const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
 
     try {
         if (!allowedTables.includes(type)) {
@@ -85,9 +86,6 @@ router.post("/Anwendung", async (req, res) => {
     //holt sich die Variablen aus dem Body
     const {query, type} = req.body;
 
-    //schutz vor SQL-Injection
-    const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
-
     try {
         if (!allowedTables.includes(type)) {
             return res.status(400).json({error: 'Invalid table name'});
@@ -152,9 +150,6 @@ router.post("/Dienst", async (req, res) => {
 
     //holt sich die Variablen aus dem Body
     const {query, type, dienstTyp} = req.body;
-
-    //schutz vor SQL-Injection
-    const allowedTables = ['Datensatz', 'Dienst', 'Anwendung'];
 
     try {
         if (!allowedTables.includes(type)) {
@@ -233,4 +228,28 @@ router.post("/Dienst", async (req, res) => {
         res.status(500).send('Fehler bei der Suche nach Dienst');
     }
 });
+
+router.post("/Server", async (req, res) => {
+
+    //holt sich die Variablen aus dem Body
+    const {query, type} = req.body;
+
+    try {
+        if (!allowedTables.includes(type)) {
+            return res.status(400).json({error: 'Invalid table name'});
+        }
+
+        const queryResultDatenbank = await pool.query(
+            `SELECT * `, [`%${query}%`]
+        )
+
+
+
+
+    }   catch (err) {
+        console.error(err);
+        res.status(500).send('Fehler bei der Suche nach Dienst');
+    }
+});
+
 module.exports = router;

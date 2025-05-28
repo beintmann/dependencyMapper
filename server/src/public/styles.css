@@ -170,3 +170,8 @@ button:hover {
     color: #00796b; /* Farbe für die fettgedruckten Texte */
 }
 
+/* für highlighting der Vorschlagliste */
+#suggestions li.highlight {
+    background-color: #00796b;
+    color: white;
+}
