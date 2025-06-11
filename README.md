@@ -1,6 +1,6 @@
 # DependencyMapper
 
-A tool to store and analyze the dependencies between geospatial datasets, databases, services, applications and servers 
+A tool to store and analyze the dependencies between geospatial datasets, databases, services, applications and servers. 
 
 Can be used to answer the following questions:
 - Which applications are impacted if database XY has downtime during a migration? 
