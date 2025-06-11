@@ -1,3 +1,4 @@
+#Container Setup with NodeJS as the webserver running the application, PostgreSQL as the database instance and pgAdmin as the database manager GUI
 services:
   server:
     image: node-server:1.0.0
