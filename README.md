@@ -1,10 +1,20 @@
-## WebDev Container Setup 
-A simple container setup for web development with NodeJS and PostgreSQL. This setup is intended to be used as a base for web development projects.
+# DependencyMapper
 
-Tech Inside:
+A tool to store and analyze the dependencies between geospatial datasets, databases, services, applications and servers. 
+
+Can be used to answer the following questions:
+- Which applications are impacted if database XY has downtime during a migration? 
+- Which applications are using geospatial service XY?
+- ...
+
+This project mainly provides a database model (see `/docs`) and a web-frontend to query this database.
+
+## Development Container Setup 
+
+Stack:
 - NodeJS, ExpressJS
 - Nodemon (Updates /server on file changes) 
-- PostgreSQL (via pg JS library)
+- PostgreSQL (via `pg` JS library)
 
 ## Setup
 Create a `.env` file in the root directory with the following variables:
