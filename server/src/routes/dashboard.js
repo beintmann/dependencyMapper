@@ -4,6 +4,7 @@ const router = express.Router();
 // Route für die Hauptseite
 router.get('/', (req, res) => {
     res.send(`
+        <!DOCTYPE html>
         <link rel="stylesheet" type="text/css" href="/styles.css">
         <script src="/searchHandler.js" defer ></script>
         <script src="/formHandler.js" defer ></script>

@@ -10,6 +10,7 @@ const pool = new pg.Pool({
     password: process.env.POSTGRES_PASSWORD
 });
 
+// Route für empfehlungen der Autovervollständigung
 router.get("/", async (req, res) => {
 
     //holt sich die Variablen aus der URL

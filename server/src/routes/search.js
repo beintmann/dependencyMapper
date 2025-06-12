@@ -239,16 +239,33 @@ router.post("/Server", async (req, res) => {
             return res.status(400).json({error: 'Invalid table name'});
         }
 
+        const queryResultServer = await pool.query(
+            `SELECT se.* as metadata
+            FROM
+            "Server" se
+            WHERE se."Name" ILIKE $1`, [`%${query}%`]
+        );
+
         const queryResultDatenbank = await pool.query(
-            `SELECT * `, [`%${query}%`]
-        )
+            `
+                SELECT dab."Name" as db_name
+                FROM "Server" se
+                         JOIN "DB_Instanz" as dbi
+                              ON se."ServerID" = dbi."ServerID"
+                         JOIN "Datenbank" as dab
+                              ON dbi."Instanz" = dab."DB_Instanz"
+                WHERE se."Name" ILIKE $1`, [`%${query}%`]
+        );
+
+        const queryResult
+
 
 
 
 
     }   catch (err) {
         console.error(err);
-        res.status(500).send('Fehler bei der Suche nach Dienst');
+        res.status(500).send('Fehler bei der Suche nach Server');
     }
 });
 

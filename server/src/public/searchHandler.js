@@ -54,7 +54,7 @@ searchInput.addEventListener("keydown", function(e){
     else if (e.key === "ArrowUp") {
         e.preventDefault();
         selectedIndex = ((selectedIndex - 1) + listItems.length ) % listItems.length;
-        updateHighlighting();
+        updateHighlighting(listItems);
     }
 
     else if (e.key === "Enter") {
@@ -66,7 +66,7 @@ searchInput.addEventListener("keydown", function(e){
         }
     }
 })
-
+//Für keyboard-navigation
 function updateHighlighting(listItems) {
     listItems.forEach((item, i) => {
         item.classList.toggle("highlight", i === selectedIndex)
@@ -113,7 +113,7 @@ document.getElementById("search-form").addEventListener("submit", async function
         metadataDiv.innerHTML = "<h3 id='metadaten_header'><strong><u>Metadaten:</u></strong></h3>"
 
 
-        //Logik für Befüllung der Container mit den Daten aus der Response
+        //besorgt sich die container-namen für spätere logik
         const resultContainer = document.getElementById("results-container");
         resultContainer.style.display = "flex"
 
@@ -153,6 +153,7 @@ document.getElementById("search-form").addEventListener("submit", async function
                 }
             });
         }
+        // funktionen zur erstellung und anzeigen der Ergebnisse. Nimmt entgegen: container, containertitel(überschrift die der container bekommen soll), results aus der query die angezeigt werden sollen, und dem element-tag der den jeweiligen erstellten elementen gegeben werden soll.
         createAndFillSubelement(dienstContainer, "Dienste:", results.Dienste, "dienst_name", 'dienst-element');
         createAndFillSubelement(anwendungContainer, "Anwendungen:", results.Anwendungen, "anwendung_name", 'anwendung-element');
         createAndFillSubelement(serverContainer, "Server:", results.Server, "server_name", 'server-element');
@@ -196,6 +197,6 @@ function clearSubContainers() {
     // Iteriert über die ausgewählten Elemente und setzt den textContent auf einen leeren String
     subContainers.forEach(container => {
         container.textContent = ''; // Leere den Inhalt
-        container.style.display = "none" //macht ihn wieder unsichtbar falls in der nächsten suche ein anderer typ gesucht wird
+        container.style.display = "none" //macht ihn wieder unsichtbar, falls in der nächsten suche ein anderer typ gesucht wird
     });
 }
